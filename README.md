@@ -1,0 +1,119 @@
+# 🚗 Car Price Prediction
+
+A complete end-to-end machine learning project that predicts used car prices based on vehicle attributes like brand, year, mileage, engine size, fuel type, transmission, and ownership history.
+
+## 📂 Project Structure
+
+```
+car_price_project/
+├── car_price_prediction.ipynb   # Main notebook (EDA + modeling + evaluation)
+├── car_price_dataset.csv        # Dataset (10,000 cars, 10 columns)
+├── car_price_model.pkl          # Saved trained model pipeline
+└── README.md                    # This file
+```
+
+## 📊 Dataset Overview
+
+| Column | Description |
+|---|---|
+| Brand | Car manufacturer (e.g. Toyota, BMW, Honda) |
+| Model | Specific car model |
+| Year | Manufacturing year |
+| Engine_Size | Engine size in liters |
+| Fuel_Type | Diesel / Hybrid / Electric / Petrol |
+| Transmission | Manual / Automatic / Semi-Automatic |
+| Mileage | Total mileage driven |
+| Doors | Number of doors |
+| Owner_Count | Number of previous owners |
+| **Price** | **Target variable** — car price (USD) |
+
+- 10,000 rows, no missing values, no duplicates.
+
+## 🔧 What the Notebook Does
+
+1. **Data Loading & Inspection** — shape, types, summary stats
+2. **Exploratory Data Analysis (EDA)**
+   - Price distribution (histogram + boxplot)
+   - Categorical feature counts (Brand, Fuel Type, Transmission)
+   - Average price by category
+   - Numerical features vs. price (scatter plots)
+   - Correlation heatmap
+3. **Feature Engineering**
+   - Derived `Car_Age` from `Year`
+   - Dropped high-cardinality `Model` column
+4. **Preprocessing Pipeline**
+   - `StandardScaler` for numerical features
+   - `OneHotEncoder` for categorical features
+   - Wrapped in a `ColumnTransformer` + `sklearn Pipeline`
+5. **Model Training & Comparison**
+   - Linear Regression
+   - Random Forest Regressor
+   - Gradient Boosting Regressor
+   - XGBoost Regressor
+6. **Evaluation**
+   - MAE, RMSE, R² for each model
+   - 5-fold cross-validation on the best model
+   - Predicted vs. actual price plot
+   - Residual analysis
+7. **Feature Importance** — top predictors visualized
+8. **Prediction Function** — `predict_car_price()` for new/unseen cars
+9. **Model Saving** — best pipeline exported as `car_price_model.pkl`
+
+## 🏆 Results
+
+| Model | MAE | RMSE | R² |
+|---|---|---|---|
+| **Linear Regression** | **19.71** | **64.77** | **0.9995** |
+| XGBoost | 116.27 | 150.95 | 0.9975 |
+| Gradient Boosting | 169.55 | 216.66 | 0.9949 |
+| Random Forest | 246.75 | 318.03 | 0.9890 |
+
+Linear Regression performed best — the relationship between price and the key features (especially car age and mileage) is largely linear in this dataset, so the simpler model generalizes extremely well.
+
+**Top predictors:** Car age and mileage explain most of the price variation, with brand contributing secondary signal.
+
+## ▶️ How to Run
+
+1. Make sure `car_price_dataset.csv` is in the same folder as the notebook.
+2. Install dependencies:
+   ```bash
+   pip install pandas numpy matplotlib seaborn scikit-learn xgboost joblib
+   ```
+3. Open and run the notebook top to bottom:
+   ```bash
+   jupyter notebook car_price_prediction.ipynb
+   ```
+
+## 🔮 Using the Trained Model
+
+```python
+import joblib
+import pandas as pd
+
+model = joblib.load("car_price_model.pkl")
+
+new_car = pd.DataFrame([{
+    "Brand": "Toyota",
+    "Car_Age": 2026 - 2019,   # 7 years old
+    "Engine_Size": 2.5,
+    "Fuel_Type": "Petrol",
+    "Transmission": "Automatic",
+    "Mileage": 45000,
+    "Doors": 4,
+    "Owner_Count": 1,
+}])
+
+predicted_price = model.predict(new_car)[0]
+print(f"Predicted Price: ${predicted_price:,.2f}")
+```
+
+## 🚀 Possible Next Steps
+
+- Hyperparameter tuning (GridSearchCV / Optuna) for tree-based models
+- Target/frequency encoding for the `Model` column instead of dropping it
+- Deploy as a simple Streamlit or Flask web app
+- Add SHAP values for deeper model interpretability
+
+## 🛠️ Tech Stack
+
+`Python` · `pandas` · `NumPy` · `scikit-learn` · `XGBoost` · `Matplotlib` · `Seaborn` · `Jupyter`
