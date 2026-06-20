@@ -1,16 +1,14 @@
 # 🚗 Car Price Prediction
 
-A complete end-to-end machine learning project that predicts used car prices based on vehicle attributes like brand, year, mileage, engine size, fuel type, transmission, and ownership history.
+An end-to-end machine learning project that predicts used car prices based on vehicle attributes like brand, year, mileage, engine size, fuel type, transmission, and ownership history. Built as part of the CodeAlpha Data Science Internship (Task 3).
 
 ## 📂 Project Structure
 
-```
 car_price_project/
-├── car_price_prediction.ipynb   # Main notebook (EDA + modeling + evaluation)
-├── car_price_dataset.csv        # Dataset (10,000 cars, 10 columns)
-├── car_price_model.pkl          # Saved trained model pipeline
-└── README.md                    # This file
-```
+├── car_price_prediction_CodeAlpha.ipynb   # Main notebook (EDA + modeling + evaluation)
+├── car_price_dataset.csv                  # Dataset (10,000 cars, 10 columns)
+├── car_price_model.pkl                    # Saved trained model pipeline
+└── README.md                              # This file
 
 ## 📊 Dataset Overview
 
@@ -27,7 +25,7 @@ car_price_project/
 | Owner_Count | Number of previous owners |
 | **Price** | **Target variable** — car price (USD) |
 
-- 10,000 rows, no missing values, no duplicates.
+10,000 rows, no missing values, no duplicates.
 
 ## 🔧 What the Notebook Does
 
@@ -39,12 +37,12 @@ car_price_project/
    - Numerical features vs. price (scatter plots)
    - Correlation heatmap
 3. **Feature Engineering**
-   - Derived `Car_Age` from `Year`
-   - Dropped high-cardinality `Model` column
+   - Derived Car_Age from Year
+   - Dropped high-cardinality Model column
 4. **Preprocessing Pipeline**
-   - `StandardScaler` for numerical features
-   - `OneHotEncoder` for categorical features
-   - Wrapped in a `ColumnTransformer` + `sklearn Pipeline`
+   - StandardScaler for numerical features
+   - OneHotEncoder for categorical features
+   - Wrapped in a ColumnTransformer + sklearn Pipeline
 5. **Model Training & Comparison**
    - Linear Regression
    - Random Forest Regressor
@@ -56,8 +54,8 @@ car_price_project/
    - Predicted vs. actual price plot
    - Residual analysis
 7. **Feature Importance** — top predictors visualized
-8. **Prediction Function** — `predict_car_price()` for new/unseen cars
-9. **Model Saving** — best pipeline exported as `car_price_model.pkl`
+8. **Prediction Function** — predict_car_price() for new/unseen cars
+9. **Model Saving** — best pipeline exported as car_price_model.pkl
 
 ## 🏆 Results
 
@@ -72,21 +70,16 @@ Linear Regression performed best — the relationship between price and the key 
 
 **Top predictors:** Car age and mileage explain most of the price variation, with brand contributing secondary signal.
 
+> **Note:** The very high R² (0.9995) reflects the structured, low-noise nature of this dataset rather than a real-world used-car market, where pricing is typically noisier due to condition, location, and demand factors not captured here.
+
 ## ▶️ How to Run
 
-1. Make sure `car_price_dataset.csv` is in the same folder as the notebook.
-2. Install dependencies:
-   ```bash
-   pip install pandas numpy matplotlib seaborn scikit-learn xgboost joblib
-   ```
-3. Open and run the notebook top to bottom:
-   ```bash
-   jupyter notebook car_price_prediction.ipynb
-   ```
+1. Make sure car_price_dataset.csv is in the same folder as the notebook.
+2. Install dependencies: pip install pandas numpy matplotlib seaborn scikit-learn xgboost joblib
+3. Open and run the notebook top to bottom: jupyter notebook car_price_prediction_CodeAlpha.ipynb
 
 ## 🔮 Using the Trained Model
 
-```python
 import joblib
 import pandas as pd
 
@@ -94,7 +87,7 @@ model = joblib.load("car_price_model.pkl")
 
 new_car = pd.DataFrame([{
     "Brand": "Toyota",
-    "Car_Age": 2026 - 2019,   # 7 years old
+    "Car_Age": 2026 - 2019,
     "Engine_Size": 2.5,
     "Fuel_Type": "Petrol",
     "Transmission": "Automatic",
@@ -105,15 +98,17 @@ new_car = pd.DataFrame([{
 
 predicted_price = model.predict(new_car)[0]
 print(f"Predicted Price: ${predicted_price:,.2f}")
-```
 
 ## 🚀 Possible Next Steps
 
 - Hyperparameter tuning (GridSearchCV / Optuna) for tree-based models
-- Target/frequency encoding for the `Model` column instead of dropping it
+- Target/frequency encoding for the Model column instead of dropping it
 - Deploy as a simple Streamlit or Flask web app
 - Add SHAP values for deeper model interpretability
 
 ## 🛠️ Tech Stack
 
-`Python` · `pandas` · `NumPy` · `scikit-learn` · `XGBoost` · `Matplotlib` · `Seaborn` · `Jupyter`
+Python · pandas · NumPy · scikit-learn · XGBoost · Matplotlib · Seaborn · Jupyter
+
+---
+Project by Faiz Ali | CodeAlpha Data Science Internship
